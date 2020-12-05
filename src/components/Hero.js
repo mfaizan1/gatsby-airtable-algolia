@@ -4,7 +4,17 @@ import styled from "styled-components"
 import { Link } from "gatsby"
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi"
 const Hero = () => {
-  return <h2>hero component</h2>
+  return (
+    <Wrapper>
+      <Background>
+        <article>
+          <h3>If you can dream it, we can create it</h3>
+          <h1>Let your home be unique and stylish.</h1>
+          <Link to="/projects">Projects</Link>
+        </article>
+      </Background>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.section`
