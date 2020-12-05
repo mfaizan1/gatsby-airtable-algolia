@@ -3,15 +3,44 @@ import Background from "./Background"
 import styled from "styled-components"
 import { Link } from "gatsby"
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi"
-const Hero = () => {
+const Hero = ({ projects }) => {
+  const images = projects.map(elem => {
+    const {
+      data: { image },
+    } = elem
+    return image.localFiles[0].childImageSharp.fluid
+  })
+  const [index, setIndex] = React.useState(0)
+  React.useEffect(() => {
+    if (index > images.length - 1) {
+      setIndex(0)
+    } else if (index < 0) {
+      setIndex(images.length - 1)
+    }
+  }, [index, images])
   return (
     <Wrapper>
-      <Background>
+      <Background image={images[index]}>
         <article>
           <h3>If you can dream it, we can create it</h3>
           <h1>Let your home be unique and stylish.</h1>
           <Link to="/projects">Projects</Link>
         </article>
+        <button className="prev-btn" onClick={() => setIndex(index - 1)}>
+          <FiChevronLeft />
+        </button>
+        <button className="next-btn" onClick={() => setIndex(index + 1)}>
+          <FiChevronRight />
+        </button>
+        <div className="dots">
+          {images.map((_, imgIndex) => (
+            <span
+              key={imgIndex}
+              className={index === imgIndex ? "active" : undefined}
+              onClick={() => setIndex(imgIndex)}
+            ></span>
+          ))}
+        </div>
       </Background>
     </Wrapper>
   )
