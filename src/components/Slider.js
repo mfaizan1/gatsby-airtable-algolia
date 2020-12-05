@@ -3,11 +3,88 @@ import { graphql, useStaticQuery } from "gatsby"
 import Title from "./Title"
 import styled from "styled-components"
 import Image from "gatsby-image"
-import { FaQuoteRight } from "react-icons/fa"
+import { FaChevronLeft, FaChevronRight, FaQuoteRight } from "react-icons/fa"
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi"
-
+const query = graphql`
+  {
+    allAirtable(
+      filter: { table: { eq: "customers" } }
+      limit: 3
+      sort: { order: DESC, fields: data___date }
+    ) {
+      nodes {
+        table
+        id
+        data {
+          name
+          quote
+          title
+          image {
+            localFiles {
+              childImageSharp {
+                fixed(width: 150, height: 150) {
+                  ...GatsbyImageSharpFixed
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
 const Slider = () => {
-  return <h2>slider component</h2>
+  const {
+    allAirtable: { nodes: customers },
+  } = useStaticQuery(query)
+  const [index, setIndex] = React.useState(1)
+
+  React.useEffect(() => {
+    if (index > customers.length - 1) {
+      setIndex(0)
+    } else if (index < 0) {
+      setIndex(customers.length - 1)
+    }
+  }, [index, customers])
+
+  return (
+    <Wrapper className="section">
+      <Title>reviews</Title>
+      <div className="section-center">
+        {customers.map((customer, customerIndex) => {
+          const {
+            data: { image, name, title, quote },
+          } = customer
+          const customerImage = image.localFiles[0].childImageSharp.fixed
+          let position = "nextSlide"
+          if (customerIndex === index) {
+            position = "activeSlide"
+          }
+          if (
+            customerIndex - 1 === index ||
+            (index === 0 && customerIndex === customers.length - 1)
+          ) {
+            position = "lastSlide"
+          }
+          return (
+            <article className={position}>
+              <Image fixed={customerImage} className="img" />
+              <h4>{name}</h4>
+              <p className="title">{title}</p>
+              <p className="text">{quote}</p>
+              <FaQuoteRight className="icon" />
+            </article>
+          )
+        })}
+        <button className="prev" onClick={() => setIndex(index - 1)}>
+          <FaChevronLeft />
+        </button>
+        <button className="next" onClick={() => setIndex(index + 1)}>
+          <FaChevronRight />
+        </button>
+      </div>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.div`
