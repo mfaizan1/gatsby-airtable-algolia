@@ -5,7 +5,73 @@ import base from "./Airtable"
 import { FaVoteYea } from "react-icons/fa"
 
 const Survey = () => {
-  return <h2>survey component</h2>
+  const [items, setItems] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
+
+  const getRecords = async () => {
+    let records = await base("survey")
+      .select({})
+      .firstPage()
+      .catch(err => console.debug("error:", err))
+
+    const newItems = records.map(({ id, fields }) => ({ id, fields }))
+    setItems(newItems)
+    setLoading(false)
+  }
+  React.useEffect(() => {
+    getRecords()
+  }, [])
+  const voteIt = async id => {
+    setLoading(true)
+    const tempItems = [...items].map(elem => {
+      if (elem.id === id) {
+        let { id, fields } = elem
+        fields = { ...fields, votes: fields.votes + 1 }
+        return { id, fields }
+      } else {
+        return elem
+      }
+    })
+    await base("survey")
+      .update(tempItems)
+      .catch(err => console.debug("error:", err))
+    getRecords()
+    setLoading(false)
+  }
+  return (
+    <Wrapper className="section">
+      <div className="container">
+        <Title>survey</Title>
+        <h3>most important room in the house ?</h3>
+        {loading ? (
+          "Loading..."
+        ) : (
+          <ul>
+            {items.map(elem => {
+              const {
+                id,
+                fields: { name, votes },
+              } = elem
+              return (
+                <li key={id}>
+                  <div className="key">
+                    {name.toUpperCase().substring(0, 2)}
+                  </div>
+                  <div>
+                    <h4>{name}</h4>
+                    <p>{votes} votes</p>
+                  </div>
+                  <button onClick={() => voteIt(id)}>
+                    <FaVoteYea />
+                  </button>
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </div>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.section`

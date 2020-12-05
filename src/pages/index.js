@@ -22,6 +22,7 @@ const HomePage = ({
       <About />
       <Projects projects={projects} title="Latest 3 projects" home />
       <Slider />
+      <Survey />
     </Layout>
   )
 }
