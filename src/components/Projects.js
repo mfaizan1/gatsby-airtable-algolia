@@ -4,8 +4,36 @@ import Title from "./Title"
 import styled from "styled-components"
 import Image from "gatsby-image"
 import SearchButtons from "./SearchButtons"
-const Projects = () => {
-  return <h2>projects component</h2>
+import GatsbyImage from "gatsby-image"
+const Projects = ({ projects: data, title, home }) => {
+  const [projects, setProjects] = React.useState(data)
+  return (
+    <Wrapper className="section">
+      <Title>{title || projects}</Title>
+      {/* search button */}
+      <div className="section-center">
+        {projects.map(({ id, data: { date, name, type, image } }) => {
+          const fluid = image.localFiles[0].childImageSharp.fluid
+          return (
+            <article key={id}>
+              <div className="container">
+                <GatsbyImage fluid={fluid} className="img" />
+                <div className="info">
+                  <p>- {type} -</p>
+                  <h3>{name}</h3>
+                </div>
+              </div>
+            </article>
+          )
+        })}
+      </div>
+      {home && (
+        <Link className="btn" to="/projects">
+          All projects
+        </Link>
+      )}
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.section`

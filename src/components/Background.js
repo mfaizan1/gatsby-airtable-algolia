@@ -19,7 +19,6 @@ const Background = ({ children }) => {
       childImageSharp: { fluid },
     },
   } = useStaticQuery(query)
-  console.log(fluid, "check")
   return (
     <Wrapper>
       <BackgroundImage
