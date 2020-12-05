@@ -3,7 +3,20 @@ import styled from "styled-components"
 import Title from "./Title"
 import services from "../constants/services"
 const About = () => {
-  return <h2>about component</h2>
+  return (
+    <Wrapper>
+      <Title>About us</Title>
+      <div className="section-center">
+        {services.map(elem => (
+          <article key={elem.id}>
+            <span>{elem.icon}</span>
+            <h4>{elem.label}</h4>
+            <p>{elem.text}</p>
+          </article>
+        ))}
+      </div>
+    </Wrapper>
+  )
 }
 const Wrapper = styled.section`
   .section-center {
