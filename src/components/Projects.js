@@ -7,10 +7,20 @@ import SearchButtons from "./SearchButtons"
 import GatsbyImage from "gatsby-image"
 const Projects = ({ projects: data, title, home }) => {
   const [projects, setProjects] = React.useState(data)
+
+  const setProjectsToAll = () => {
+    setProjects(data)
+  }
   return (
     <Wrapper className="section">
-      <Title>{title || projects}</Title>
-      {/* search button */}
+      <Title>{title || "projects"}</Title>
+      {!home && (
+        <SearchButtons
+          projects={data}
+          setProjects={setProjects}
+          setProjectsToAll={setProjectsToAll}
+        />
+      )}
       <div className="section-center">
         {projects.map(({ id, data: { date, name, type, image } }) => {
           const fluid = image.localFiles[0].childImageSharp.fluid
