@@ -8,7 +8,9 @@ import { GatsbyContext } from "../context/context"
 
 const Navbar = () => {
   const data = useContext(GatsbyContext)
-  const { isSideBarOpen, toggleSidebar } = data
+  const { isSideBarOpen, toggleSidebar, links } = data
+  const tempLinks = [...new Set(links.map(link => link.page))]
+  console.log(tempLinks)
   return (
     <Wrapper>
       <div className="nav-center">
@@ -23,15 +25,9 @@ const Navbar = () => {
           )}
         </div>
         <ul className="nav-links">
-          <li>
-            <button>products</button>
-          </li>
-          <li>
-            <button>developers</button>
-          </li>
-          <li>
-            <button>company</button>
-          </li>
+          {tempLinks.map((page, index) => (
+            <NavLink key={index} page={page} />
+          ))}
         </ul>
       </div>
     </Wrapper>
