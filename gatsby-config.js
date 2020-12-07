@@ -5,12 +5,12 @@ const queries = require("./src/constants/algolia")
 module.exports = {
   siteMetadata: {
     title: `Design Shop`,
-    description: `Gatsby Airtable Example. Built using Airtable, Algolia Search, Gatsby Background Image plugin and  React Context API. Containts two sliders, real-time Airtable updates and submenus. Styled using Styled-Components. `,
-    author: `@johnsmilga`,
+    description: `Gatsby Airtable Example. Built using Airtable, Algolia Search, Gatsby Background Image plugin and  React Context API. Contains two sliders, real-time Airtable updates and submenus. Styled using Styled-Components. `,
+    author: `@faizanulhaq`,
     titleTemplate: `%s | Gatsby - Airtable`,
-    url: `https://gatsby-airtable-design-project.netlify.app/`,
+    url: `https://zealous-edison-9d3342.netlify.app/`,
     image: `mainBcg.png`,
-    twitterUsername: `@john_smilga`,
+    twitterUsername: `@mfaziulhaq`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
