@@ -2,9 +2,27 @@ import React, { useContext } from "react"
 import styled from "styled-components"
 import { MdClose } from "react-icons/md"
 import { Link } from "gatsby"
+import { GatsbyContext } from "../context/context"
 
 const Sidebar = () => {
-  return <h2>sidebar component</h2>
+  const { links, toggleSidebar } = useContext(GatsbyContext)
+  return (
+    <Wrapper>
+      <div className="container">
+        <button onClick={toggleSidebar}>
+          <MdClose className="icon" />
+        </button>
+        <div className="links">
+          {links.map(({ label, url, icon }, index) => (
+            <Link to={url} key={index}>
+              {icon}
+              {label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </Wrapper>
+  )
 }
 const Wrapper = styled.aside`
   position: fixed;

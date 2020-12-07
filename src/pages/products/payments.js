@@ -2,8 +2,19 @@ import React from "react"
 import { Layout } from "../../components"
 import styled from "styled-components"
 import { Link } from "gatsby"
-const Payments = () => {
-  return <h2>payments page</h2>
+const Payments = props => {
+  return (
+    <Layout>
+      <Wrapper>
+        <div>
+          <h1>{props.location.pathname.slice(1)}</h1>
+          <Link to="/" className="btn">
+            Homepage
+          </Link>
+        </div>
+      </Wrapper>
+    </Layout>
+  )
 }
 
 const Wrapper = styled.main`

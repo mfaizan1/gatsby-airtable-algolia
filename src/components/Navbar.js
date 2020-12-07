@@ -4,8 +4,11 @@ import logo from "../images/logo.svg"
 import { GoThreeBars } from "react-icons/go"
 import { Link } from "gatsby"
 import NavLink from "./NavLink"
+import { GatsbyContext } from "../context/context"
 
 const Navbar = () => {
+  const data = useContext(GatsbyContext)
+  const { isSideBarOpen, toggleSidebar } = data
   return (
     <Wrapper>
       <div className="nav-center">
@@ -13,9 +16,11 @@ const Navbar = () => {
           <Link to="/">
             <img src={logo} alt="logo" />
           </Link>
-          <button className="toggle-btn">
-            <GoThreeBars />
-          </button>
+          {!isSideBarOpen && (
+            <button className="toggle-btn">
+              <GoThreeBars onClick={toggleSidebar} />
+            </button>
+          )}
         </div>
         <ul className="nav-links">
           <li>
